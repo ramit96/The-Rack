@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Todo App</title>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+
+	<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="/stylesheets/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+	<script type="text/javascript" src="/javascripts/Storage.js"></script>
+	<script type="text/javascript" src="/javascripts/App.js"></script>
+
+      <!--Let browser know website is optimized for mobile-->
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<style type="text/css" media="screen">
+		/*.done{
+			text-decoration: line-through;
+		}*/
+		#dynamicDoneTbody td label{
+			text-decoration: line-through;
+		}
+		.active{
+			border-color: #e29999 !important;
+			color: dimgray !important;
+		}
+
+		.header{
+			font-size: 50px;
+			font-variant: small-caps;
+		}
+
+		.tblHeaderDay{
+			/*background-color: darkgray;*/
+			color: dimgray;
+			font-variant: small-caps;
+		}
+
+		.btnTab{
+			font: italic small-caps bold 30px/150% Helvetica;
+			border: 4px solid #ccc;
+			border-style: outset;
+			cursor: pointer;
+			color: darkgray;
+		}
+		/*.btnTab2{
+			font: italic small-caps bold 30px/150% Helvetica;
+			border: 4px solid #ccc;
+			border-style: outset;
+		}*/
+
+		.formHeader{
+			background-color: #ccc;
+			/*background-color: rgba(16,16,21,0.50);*/
+			/*background-color: #ccc !important;*/
+			/*border: 1px solid grey;*/
+			font-family: Foobar Pro;
+		}
+		.formBody{
+			/*background-color: #ccc;*/
+			background-color: #ffffff
+		}
+
+		.txtField1{
+			width: 350px;
+			height: 40px;
+			max-height: 40px;
+    		margin: 15px 25px 25px;
+    		font-size: 20px;
+    		background-color: #ccc;
+    		color: #040756;
+    		/*color: #ffffff;*/
+    		/*background-color: #343a40;*/
+		}
+		.txtField2{
+			width: 350px;
+			min-height: 100px;
+			max-height: 100px;
+    		margin: 0px 25px 0px;
+    		font-size: 15px;
+    		background-color: #ccc;
+    		color: #483d09;
+    		/*color: #ffffff;*/
+    		/*background-color: #343a40;*/
+		}
+
+		.divBtn{
+			margin: 10px 25px 0px;
+		}
+
+		.toDoTable{
+			background-color: red;
+		}
+
+		.dynamicTR{
+			position: relative;
+		}
+		.btn_grid{
+			/*float: right;
+			margin-top: -20px;
+			z-index: 1;*/
+			position: absolute;
+    		right: 10px;
+    		top: 10px;
+		}
+		.divTime{
+			font-size: 10px;
+    		float: right;
+    		/*margin-top: 15px;*/
+		}
+		.title{
+			position: absolute;
+			bottom: 70px;
+    		left: 41px;
+    		padding-left: 15px;
+			font-size: 25px;
+			font-weight: bold;
+			width: 1000px;
+			word-wrap: break-word;
+		}
+		.description{
+			font-size: 15px;
+			font-style: italic;
+			width: 1000px;
+			word-wrap: break-word;
+		}
+		.ico_edit{
+			margin: 0px 5px 0px;
+			display: inline-block;
+			cursor: pointer;
+		}
+		.ico_del{
+			margin: 0px 5px 0px;
+			display: inline-block;
+			cursor: pointer;
+		}
+		.ico_add{
+			margin-top: 20px;
+			cursor: pointer;
+		}
+		.chckbx{
+			cursor: pointer;
+		}
+		.divTodo{
+			min-height: 510px;
+			max-height: 510px;
+		}
+
+		.addOrEditForm{
+			display: none;
+			/*display: block;*/
+            font-family: arial;
+            font-size: 13px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 310px;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            z-index: 9;
+		}
+		.modal-dialog-note{
+
+            display: none;
+            /*display: block;*/
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		}
+	</style>
+	<script type="text/javascript">
+
+		var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+		function sort(obj, l, r) { //obj = object, l = starting index, r = end index
+            var temp;
+            if (l >= r)
+                return;
+
+            var pivot = new Date(obj[r].time).getTime();
+
+            var cnt = l;
+
+            for (var i = l; i <= r; i++) {
+                if (new Date(obj[i].time).getTime() >= pivot) {
+                    temp = obj[cnt];
+                    obj[cnt] = obj[i];
+                    obj[i] = temp;
+                    cnt++;
+                }
+            }
+
+            sort(obj, l, cnt - 2); // Recursively sort the left side of pivot
+            sort(obj, cnt, r);   // Recursively sort the right side of pivot
+        }
+
+
+		var click = {
+			onSaveClick: function() {
+				var title = $("#txtTitle").val();
+				var desc = $("#txtDesc").val();
+				var newTask = new toDoData(title, desc, false);
+				newTask.save();
+	            table.createTable();
+			},
+
+			onEditSaveClick: function(){
+				var editedTask = new toDoData($("#txtEditTitle").val(), $("#txtEditDesc").val(), $("#hdnEditStatus").prop('checked'));
+				editedTask.id = $("#hdnEditId").val();
+				editedTask.time = new Date();
+				editedTask.save();
+    	        table.createTable();
+			},
+
+			onDoneClick: function(id){
+				var data = getDataByID(id);
+				var doneTask = new toDoData(data.title, data.description, data.status);
+				doneTask.id = data.id;
+				doneTask.status = $("#"+id).prop('checked');
+				doneTask.time = data.time;
+				doneTask.save();
+            	table.createTable();
+			},
+
+			addClick: function(){
+				$("#myModal").css("display", "block");
+				$("#divAddForm").css("display", "block");
+				$('#txtTitle').focus();
+
+				$('#txtTitle').keypress(function(e){
+     				if(e.keyCode==13)
+      					$('#btnSave').click();
+    			});
+				$('#txtDesc').keypress(function(e){
+     				if(e.keyCode==13)
+      					$('#btnSave').click();
+    			});
+			},
+
+			editClick: function(obj){
+				var id = $(obj).closest('.dynamicTR').find('#toDoID').val();
+				var task = getDataByID(id);
+
+				$("#hdnEditId").val(task.id);
+				$("#hdnEditStatus").attr('checked',task.status);
+				$("#hdnEditStatus").hide();
+				$("#txtEditTitle").val(task.title);
+				$("#txtEditDesc").val(task.description);
+
+				$("#editModal").css("display", "block");
+				$("#divEditForm").css("display", "block");
+				$('#txtEditTitle').focus();
+
+				$('#txtEditTitle').keypress(function(e){
+     				if(e.keyCode==13)
+      					$('#btnEditSave').click();
+    			});
+				$('#txtEditDesc').keypress(function(e){
+     				if(e.keyCode==13)
+      					$('#btnEditSave').click();
+    			});
+			},
+
+			deleteClick: function(obj){
+				var id = $(obj).closest('.dynamicTR').find('#toDoID').val();
+				setup.deleteNote(id);
+				table.createTable();
+			}
+		};
+
+
+		var table = {
+			createTable: function(){
+				var pendingTasks = [], doneTasks = [];
+				$(".dynamicTR").remove();
+				for (let item of setup.notes)
+					(item.status)?(doneTasks.push(item)):(pendingTasks.push(item));
+				table.createBothTables(pendingTasks);
+				table.createBothTables(doneTasks);
+				clickEvents();
+			},
+
+			createBothTables: function(tasks){
+				sort(tasks, 0, (tasks.length)-1);
+				for (var i = 0; i < tasks.length; i++) {
+					var currDay = new Date(tasks[i].time).getDay();
+					var day = days[currDay];
+					(i == 0) ? (toggle = 1) : (currDay < preDay) ? (toggle = 1) : (toggle = 0);
+					table.createTableRow1(tasks[i], day, toggle);
+					var preDay = currDay;
+				}
+			},
+
+			createTableRow: function(data, day, toggle){
+				var timeAgo = timeSince(new Date(data.time).getTime());
+				var bodyHtml = "";
+				if (toggle == 1)
+					bodyHtml += '<tr class="dynamicTR card-panel z-depth-5"><td class="tblHeaderDay" colspan="2" align="center"><h2>' + day + '</h2></td></tr>';
+				bodyHtml += '<tr class="dynamicTR"><td class="align-items-center" style="width: 1px; vertical-align: middle;">';
+				bodyHtml += '<label><input type="checkbox" id="'+ data.id +'" class="chckbx" value="'+ data.id +'"></label>';
+				bodyHtml += '</td><td><input type="hidden" id="toDoID" value="'+ data.id +'"></input><label class="title">'+ data.title +'</label><br /><label class="description">'+ data.description +'</label>';
+				bodyHtml += '<span class="btn_grid"><div class="ico_edit btn-edit"><i class="far fa-edit"></i></div><div class="ico_del btn-delete"><i class="far fa-trash-alt"></i></div></span>';
+				bodyHtml +='<div class="divTime"><strong>Last Modified:</strong> '+ timeAgo + " ago" + '</div></td></tr>';
+				(data.status) ? ($("#dynamicDoneTbody").append(bodyHtml)) : ($("#dynamicPendingTbody").append(bodyHtml));
+				$('#dynamicDoneTbody').find('.chckbx').attr('checked', true);
+			},
+
+			createTableRow1: function(data, day, toggle){
+				var timeAgo = timeSince(new Date(data.time).getTime());
+				var bodyHtml = "";
+				if (toggle == 1)
+					bodyHtml += '<div class="tblHeaderDay dynamicTR" colspan="2" align="center"><h3>' + day + '</h3></div>';
+
+				bodyHtml += '<div class="dynamicTR card-panel z-depth-5"><label><input type="checkbox" id="'+ data.id +'" class="chckbx" value="'+ data.id +'" /><span></span></label>';
+        		bodyHtml += '<div class="title">'+ data.title +'</div>';
+        		bodyHtml += '<span class="btn_grid"><div class="ico_edit btn-edit"><i class="far fa-edit"></i></div><div class="ico_del btn-delete"><i class="far fa-trash-alt"></i></div></span>';
+				bodyHtml += '<input type="hidden" id="toDoID" value="'+ data.id +'"><p class="blue-text text-darken-2 description">'+ data.description +'</p>';
+				
+				bodyHtml +='<div class="divTime"><strong>Last Modified:</strong> '+ timeAgo + " ago" + '</div></div>';
+				(data.status) ? ($("#dynamicDoneTbody").append(bodyHtml)) : ($("#dynamicPendingTbody").append(bodyHtml));
+				$('#dynamicDoneTbody').find('.chckbx').attr('checked', true);
+			}
+		};
+
+
+		function modalEvents(){
+			var modal = document.getElementById('addModal');
+
+            $('#btnSave').click(function(){
+            	click.onSaveClick();
+            	$("#txtTitle").val("");
+				$("#txtDesc").val("");
+               	modal.style.display = "none";
+               	$("#divAddForm").css("display", "none");
+            });
+        	$('#btnEditSave').click(function(){
+            	click.onEditSaveClick();
+            	$("#txtTitle").val("");
+				$("#txtDesc").val("");
+               	modal.style.display = "none";
+               	$("#divEditForm").css("display", "none");
+            });
+            $('.btnCancel').click(function () {
+            	$("#txtTitle").val("");
+				$("#txtDesc").val("");
+                modal.style.display = "none";
+                $("#divAddForm").css("display", "none");
+                $("#divEditForm").css("display", "none");
+            });
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                	$("#txtTitle").val("");
+					$("#txtDesc").val("");
+                    modal.style.display = "none";
+                	$("#divAddForm").css("display", "none");
+                	$("#divEditForm").css("display", "none");
+                }
+            }
+		}
+
+
+		function clickEvents(){
+			$('.btn-edit').on('click', function(){
+				click.editClick(this);
+			});
+			$('.btn-delete').on('click', function(){
+				if (confirm("Are you sure want to delete this task?")) {
+					click.deleteClick(this);
+				}
+			});
+			$('.chckbx').on('change', function(){
+				click.onDoneClick(this.value);
+			});
+		}
+
+
+
+		$(document).ready(function(){
+			init();
+			table.createTable();
+			modalEvents();
+    		$('.modal').modal();
+    		$('.tabs').tabs();
+			$('#tblDoneToDo').hide();
+			$('#btn-add').on('click', function(){
+				click.addClick();
+			});
+
+			$('#tabPending').on('click', function(){
+				$('#tabDone').removeClass('active');
+				$('#tabPending').addClass('active');
+				$('#tblDoneToDo').hide();
+				$('#tblPendingToDo').fadeIn(500);
+
+			});
+			$('#tabDone').on('click', function(){
+				$('#tabPending').removeClass('active');
+				$('#tabDone').addClass('active');
+				$('#tblPendingToDo').hide();
+				$("#tblDoneToDo").fadeIn(500);
+			});
+		});
+	</script>
+</head>
+<body>
+<div class="container">
+<div class="row">
+	<div class="col s12">
+		<!-- <div class="col s12 header" align="center">Tasks</div> -->
+      	<ul class="tabs">
+        	<li class="tab col s6"><a class="active" href="#tblPendingToDo">Pending</a></li>
+        	<li class="tab col s6"><a href="#tblDoneToDo">Done</a></li>
+      	</ul>
+	</div>
+
+
+	<!-- <div id="tabPending" align="center" class="col s6 btnTab active">
+		<span>Pending</span>
+	</div>
+	<div id="tabDone" align="center" class="col s6 btnTab">
+		<span>Done</span>
+	</div> -->
+</div>
+
+<div class="divTodo">
+	<div id="tblPendingToDo">
+		<div id="dynamicPendingTbody"></div>
+	</div>
+	<div id="tblDoneToDo">
+		<div id="dynamicDoneTbody"></div>
+	</div>
+</div>
+
+	<!-- <div class="col-lg-12 divTodo">
+		
+		<br />
+		<table id="tblPendingToDo" class="table table-bordered table-hover table-striped toDoTable">
+			<tbody id="dynamicPendingTbody">
+			</tbody>
+		</table>
+		<table id="tblDoneToDo" class="table table-bordered table-hover table-striped toDoTable">
+			<tbody id="dynamicDoneTbody">
+			</tbody>
+		</table>	
+	</div> -->
+	
+		<div class="col-lg-12 ico_add">
+			<a id="btn-add" class="btn-floating btn-large scale-transition pulse waves-effect waves-light btn modal-trigger" href="#addModal" style="float: right;">
+    			<i class="material-icons">add</i>
+  			</a>
+			<!-- <div class="btn-add" style="float: right; background-color: #ccc; border-radius: 30px;"><i class="fas fa-plus-circle fa-4x"></i></div> -->
+		</div>
+	</div>
+<!-- <div id="myModal" class="modal"> -->
+<div id="addModal" class="modal">
+	<div id="divAddForm" class="modal-content">
+		<div class="formHeader"><h4 align="center">Add New Task</h4></div>
+		<textarea type="text" id="txtTitle" name="Title" class="txtField1" placeholder="Title"></textarea><br>
+		<textarea type="text" id="txtDesc" name="Description" class="txtField2" placeholder="Description"></textarea><br>
+		<div class="divBtn">
+			<button id="btnSave" class="btn btn-outline-dark btn-sm btnSave">Save</button>
+			<button id="btnCancel" class="btn btn-outline-secondary btn-sm btnCancel">Cancel</button>
+		</div>
+	</div>
+</div>
+<div id="editModal" class="modal">
+	<div id="divEditForm" class="modal-content">
+		<div class="formHeader"><h1 align="center">Edit Task</h1></div>
+		<input type="hidden" id="hdnEditId" name="Id">
+		<input type="checkbox" id="hdnEditStatus" name="Status">
+		<textarea type="text" id="txtEditTitle" name="Title" class="txtField1" placeholder="Title"></textarea><br>
+		<textarea type="text" id="txtEditDesc" name="Description" class="txtField2" placeholder="Description"></textarea><br>
+		<div class="divBtn">
+			<button id="btnEditSave" class="btn btn-outline-dark btn-sm btnSave">Save</button>
+			<button id="btnEditCancel" class="btn btn-outline-secondary btn-sm btnCancel">Cancel</button>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="card-panel z-depth-5" style="position: relative;">
+	<div style="position: absolute;">
+		<label>
+        	<input type="checkbox" value='1011' />
+        <span></span>
+      	</label>
+  	</div>
+    <div style="position: absolute;">Title</div>
+</div> -->
+
+    <!-- Scaled in -->
+  <!-- <a id="scale-demo" href="#myModal" class="btn-floating btn-large scale-transition pulse">
+    <i class="material-icons">add</i>
+  </a>
+ -->
+
+    <!-- Modal Trigger -->
+  <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> -->
+
+  <!-- Modal Structure -->
+  <!-- <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div> -->
+      
+
+
+
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('.modal').modal();
+    $('.tabs').tabs();
+  });
+</script>
+
+  <!--JavaScript at end of body for optimized loading-->
+  <script type="text/javascript" src="/javascripts/materialize.min.js"></script>
+</body>
+</html>
